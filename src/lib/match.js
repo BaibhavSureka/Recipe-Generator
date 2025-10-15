@@ -117,13 +117,18 @@ export function matchRecipes({
     const total = ing.length || 1;
     let score = matched / total;
 
-    // Boost recipes where user has more matching ingredients
-    if (matched > 0) {
-      score += matched * 0.05; // Extra boost for each matched ingredient
-    }
+    // If no ingredients provided, give base score to show all recipes
+    if (userIngredients.length === 0) {
+      score = 0.5; // Base score for browsing mode
+    } else {
+      // Boost recipes where user has more matching ingredients
+      if (matched > 0) {
+        score += matched * 0.05; // Extra boost for each matched ingredient
+      }
 
-    // Small boost for available substitutions
-    score += Math.min(subbed, 2) * 0.03;
+      // Small boost for available substitutions
+      score += Math.min(subbed, 2) * 0.03;
+    }
 
     // Boost for user's prior high rating of same cuisine
     const avgCuisineRating = averageCuisineRating(r.cuisine, recipes, ratings);
@@ -132,9 +137,12 @@ export function matchRecipes({
     // Clamp to max 1.5 to allow highly matched recipes to rise to top
     if (score > 1.5) score = 1.5;
 
+    const matchPercent = Math.round((matched / total) * 100);
+
     const tagged = {
       ...r,
       _matchScore: score,
+      matchPercent: matchPercent, // Add matchPercent for filtering
       _canMakeWithSubs: subbed > 0 && matched < total,
     };
     results.push(tagged);

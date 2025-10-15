@@ -42,7 +42,37 @@ const CANONICAL = [
   "vinegar",
   "honey",
   "sugar",
-]
+  "paneer",
+  "cream",
+  "mango",
+  "strawberry",
+  "blueberry",
+  "raspberry",
+  "orange",
+  "grape",
+  "pineapple",
+  "watermelon",
+  "avocado",
+  "kale",
+  "lettuce",
+  "cabbage",
+  "cauliflower",
+  "peas",
+  "corn",
+  "eggplant",
+  "quinoa",
+  "oats",
+  "almond",
+  "cashew",
+  "walnut",
+  "peanut",
+  "coconut",
+  "basil",
+  "oregano",
+  "thyme",
+  "rosemary",
+  "mint",
+];
 
 const MAP = {
   // common synonyms and mobilenet labels
@@ -61,10 +91,14 @@ const MAP = {
   "ground beef": "beef",
   beefsteak: "beef",
   poultry: "chicken",
+  "chicken breast": "chicken",
+  "chicken thigh": "chicken",
+  "chicken drumstick": "chicken",
   yolk: "egg",
   dairy: "milk",
   yogurt: "yogurt",
   curd: "yogurt",
+  dahi: "yogurt",
   maize: "corn",
   corn: "corn",
   chilli: "pepper",
@@ -74,18 +108,83 @@ const MAP = {
   "tomato sauce": "tomato",
   "tomato ketchup": "tomato",
   "bell pepper, sweet pepper": "bell pepper",
-}
+  // Paneer synonyms
+  paneer: "paneer",
+  "cottage cheese": "paneer",
+  "indian cheese": "paneer",
+  // Fruit synonyms
+  mango: "mango",
+  "alphonso mango": "mango",
+  banana: "banana",
+  plantain: "banana",
+  strawberry: "strawberry",
+  strawberries: "strawberry",
+  blueberry: "blueberry",
+  blueberries: "blueberry",
+  raspberry: "raspberry",
+  raspberries: "raspberry",
+  orange: "orange",
+  mandarin: "orange",
+  tangerine: "orange",
+  grape: "grape",
+  grapes: "grape",
+  pineapple: "pineapple",
+  watermelon: "watermelon",
+  avocado: "avocado",
+  // Vegetable synonyms
+  kale: "kale",
+  lettuce: "lettuce",
+  "iceberg lettuce": "lettuce",
+  "romaine lettuce": "lettuce",
+  cabbage: "cabbage",
+  cauliflower: "cauliflower",
+  peas: "peas",
+  "green peas": "peas",
+  "sweet corn": "corn",
+  brinjal: "eggplant",
+  // Grain and seeds
+  quinoa: "quinoa",
+  oats: "oats",
+  oatmeal: "oats",
+  // Nuts
+  almond: "almond",
+  almonds: "almond",
+  cashew: "cashew",
+  cashews: "cashew",
+  "cashew nuts": "cashew",
+  walnut: "walnut",
+  walnuts: "walnut",
+  peanut: "peanut",
+  peanuts: "peanut",
+  "peanut butter": "peanut",
+  coconut: "coconut",
+  // Herbs
+  basil: "basil",
+  "holy basil": "basil",
+  oregano: "oregano",
+  thyme: "thyme",
+  rosemary: "rosemary",
+  mint: "mint",
+  peppermint: "mint",
+  // Dairy
+  cream: "cream",
+  "heavy cream": "cream",
+  "whipping cream": "cream",
+  milk: "milk",
+  "whole milk": "milk",
+  "skim milk": "milk",
+};
 
 export function toCanonical(label) {
-  if (!label) return null
-  const low = String(label).toLowerCase()
-  if (MAP[low]) return MAP[low]
+  if (!label) return null;
+  const low = String(label).toLowerCase();
+  if (MAP[low]) return MAP[low];
   // simple contains matching
   for (const c of CANONICAL) {
-    if (low.includes(c)) return c
+    if (low.includes(c)) return c;
   }
   // try splitting on commas and choosing first token
-  const base = low.split(",")[0].trim()
-  if (MAP[base]) return MAP[base]
-  return null
+  const base = low.split(",")[0].trim();
+  if (MAP[base]) return MAP[base];
+  return null;
 }
